@@ -1,0 +1,44 @@
+kind: pipeline
+name: helm
+workspace:
+base: /
+steps:
+- name: helm lint
+  image: dtzar/helm-kubectl
+  commands:
+  - helm lint
+
+- name: dry run
+  image: dtzar/helm-kubectl
+  commands:
+  - helm install . -n ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA} --namespace: helm-test --dry-run
+  - go build -o output
+  - chmod +x output
+
+- name: install
+  image: dtzar/helm-kubectl
+  commands:
+  - helm delete ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA} --purge
+  - helm install . -n ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA}
+
+- name: helm test
+  image: dtzar/helm-kubectl
+  commands:
+  - helm test ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA} --cleanup
+
+- name: helm update
+  image: dtzar/helm-kubectl
+  commands:
+  - helm update ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA} .
+
+- name: cleanup
+  image: dtzar/helm-kubectl
+  commands:
+  - helm delete ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA} --purge
+
+- name: publish
+  image: keyporttech/chart_publisher
+  environment:
+    CHART_NAME: drone_helm_chart
+  commands:
+  - publish
