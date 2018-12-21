@@ -1,6 +1,6 @@
 {{ if .Values.rbac.create }}
 apiVersion: rbac.authorization.k8s.io/{{ required "A valid .Values.rbac.apiVersion entry required!" .Values.rbac.apiVersion }}
-kind: ClusterRoleBinding
+kind: RoleBinding
 metadata:
   name: {{ template "drone.fullname" . }}
   labels:

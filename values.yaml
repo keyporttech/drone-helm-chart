@@ -1,4 +1,4 @@
-appVersion: "0.8.6"
+appVersion: "1.0.0-rc.3"
 
 images:
   ## The official drone (server) image, change tag to use a different version.
@@ -6,23 +6,7 @@ images:
   ##
   server:
     repository: "docker.io/drone/drone"
-    tag: 0.8.9
-    pullPolicy: IfNotPresent
-
-  ## The official drone (agent) image, change tag to use a different version.
-  ## ref: https://hub.docker.com/r/drone/agent/tags/
-  ##
-  agent:
-    repository: "docker.io/drone/agent"
-    tag: 0.8.9
-    pullPolicy: IfNotPresent
-
-  ## The official docker (dind) image, change tag to use a different version.
-  ## ref: https://hub.docker.com/r/library/docker/tags/
-  ##
-  dind:
-    repository: "docker.io/library/docker"
-    tag: 18.06.1-ce-dind
+    tag: 1.0.0-rc.3
     pullPolicy: IfNotPresent
 
 service:

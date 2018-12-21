@@ -1,6 +1,6 @@
 {{ if .Values.rbac.create }}
 apiVersion: rbac.authorization.k8s.io/{{ required "A valid .Values.rbac.apiVersion entry required!" .Values.rbac.apiVersion }}
-kind: ClusterRole
+kind: Role
 metadata:
   name: {{ template "drone.fullname" . }}
   labels:
@@ -9,11 +9,8 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 rules:
-  - apiGroups:
-      - extensions
-      - batch
+  - apiGroups: [""]
     resources:
-      - deployments
       - jobs
     verbs:
       - create
@@ -21,4 +18,5 @@ rules:
       - list
       - patch
       - update
+      - delete
 {{ end }}
