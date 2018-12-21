@@ -3,23 +3,23 @@ name: helm-check
 
 steps:
 - name: "helm lint"
-  image: dtzar/helm-kubectl
+  image: dtzar/helm-kubectl:2.12.0
   commands:
   - "helm lint"
 
 - name: "dry run"
-  image: dtzar/helm-kubectl
+  image: dtzar/helm-kubectl:2.12.0
   commands:
   - "helm install . -n ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA} --namespace: helm-test --dry-run"
 
 - name: "install"
-  image: dtzar/helm-kubectl
+  image: dtzar/helm-kubectl:2.12.0
   commands:
   - "helm delete ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA} --purge"
   - "helm install . -n ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA}"
 
 - name: "helm test"
-  image: dtzar/helm-kubectl
+  image: dtzar/helm-kubectl:2.12.0
   commands:
   - "helm test ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA} --cleanup"
 
@@ -29,7 +29,7 @@ steps:
   - "helm update ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA} ."
 
 - name: "cleanup"
-  image: dtzar/helm-kubectl
+  image: dtzar/helm-kubectl:2.12.0
   commands:
   - "helm delete ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA} --purge"
 

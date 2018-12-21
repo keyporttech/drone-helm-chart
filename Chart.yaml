@@ -1,4 +1,4 @@
-name: drone-helm-chart
+name: drone
 home: https://drone.io/
 icon: https://drone.io/apple-touch-icon.png
 version: 1.0.0-rc.3
@@ -15,5 +15,5 @@ keywords:
 sources:
 - https://github.com/drone/drone
 maintainers:
-- name: christian-roggia
-  email: christian.roggia@gmail.com
+- name: jfelten
+  email: john.felten@gmail.com
