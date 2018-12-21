@@ -5,7 +5,7 @@ steps:
 - name: "helm lint"
   image: keyporttech/helm-builder:2.12.1
   commands:
-  - "kubectl proxy &"
+  - "kubectl proxy --port=8080 &"
   - "helm version"
   - "helm lint"
 
