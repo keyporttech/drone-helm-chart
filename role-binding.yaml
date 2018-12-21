@@ -13,10 +13,10 @@ roleRef:
   kind: Role
   name: {{ template "drone.fullname" . }}
 subjects:
-{{- if .Values.env.DRONE_NAMESPACE }}
+{{- if .Values.server.env.DRONE_NAMESPACE }}
 - kind: ServiceAccount
   name: {{ template "drone.serviceAccountName" . }}
-  namespace: {{ .Values.env.DRONE_NAMESPACE }}
+  namespace: {{ .Values.server.env.DRONE_NAMESPACE }}
 {{ else }}
 - kind: ServiceAccount
   name: {{ template "drone.serviceAccountName" . }}

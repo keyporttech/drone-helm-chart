@@ -16,6 +16,7 @@ rules:
       - deployments
       - jobs
     verbs:
+      - create
       - get
       - list
       - patch
