@@ -11,8 +11,10 @@ metadata:
 rules:
   - apiGroups:
       - extensions
+      - batch
     resources:
       - deployments
+      - jobs
     verbs:
       - get
       - list

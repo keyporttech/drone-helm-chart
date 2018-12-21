@@ -13,7 +13,13 @@ roleRef:
   kind: Role
   name: {{ template "drone.fullname" . }}
 subjects:
+{{- if .Values.env.DRONE_NAMESPACE }}
+- kind: ServiceAccount
+  name: {{ template "drone.serviceAccountName" . }}
+  namespace: {{ .Values.env.DRONE_NAMESPACE }}
+{{ else }}
 - kind: ServiceAccount
   name: {{ template "drone.serviceAccountName" . }}
   namespace: {{ .Release.Namespace }}
+{{ end -}}
 {{ end }}

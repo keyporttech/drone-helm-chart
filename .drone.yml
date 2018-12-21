@@ -1,5 +1,5 @@
 kind: pipeline
-name: helm
+name: "helm check"
 workspace:
 base: "/"
 steps:
