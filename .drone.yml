@@ -1,7 +1,6 @@
 kind: pipeline
-name: "helm check"
-workspace:
-base: "/"
+name: helm-check
+
 steps:
 - name: "helm lint"
   image: dtzar/helm-kubectl
