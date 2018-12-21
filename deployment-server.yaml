@@ -81,7 +81,7 @@ spec:
 {{ toYaml .Values.server.resources | indent 10 }}
         volumeMounts:
           - name: data
-            mountPath: /var/lib/drone
+            mountPath: /data
 {{- with .Values.server.extraContainers }}
 {{ tpl . $ | indent 6 }}
 {{- end }}
