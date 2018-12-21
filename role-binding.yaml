@@ -1,6 +1,6 @@
 {{ if .Values.rbac.create }}
 apiVersion: rbac.authorization.k8s.io/{{ required "A valid .Values.rbac.apiVersion entry required!" .Values.rbac.apiVersion }}
-kind: RoleBinding
+kind: ClusterRoleBinding
 metadata:
   name: {{ template "drone.fullname" . }}
   labels:
@@ -13,13 +13,6 @@ roleRef:
   kind: Role
   name: {{ template "drone.fullname" . }}
 subjects:
-{{- if .Values.server.env.DRONE_NAMESPACE }}
 - kind: ServiceAccount
   name: {{ template "drone.serviceAccountName" . }}
-  namespace: {{ .Values.server.env.DRONE_NAMESPACE }}
-{{ else }}
-- kind: ServiceAccount
-  name: {{ template "drone.serviceAccountName" . }}
-  namespace: {{ .Release.Namespace }}
-{{ end -}}
 {{ end }}
