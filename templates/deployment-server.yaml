@@ -48,8 +48,11 @@ spec:
           {{- if not (.Values.server.env.DRONE_KUBERNETES_NAMESPACE) }}
           - name: DRONE_KUBERNETES_NAMESPACE
             value: {{ .Release.Namespace }}
-          {{ end -}}
-
+          {{ end }}
+          - name: DRONE_RPC_PROTO
+            value: http
+          - name: DRONE_RPC_HOST
+            value: "{{ template "drone.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local"
           {{- range $key, $value := .Values.server.envSecrets }}
           - name: {{ $key }}
             valueFrom:
