@@ -3,7 +3,7 @@ name: helm-check
 
 steps:
 - name: "helm lint"
-  image: keyporttech/helm-builder:2.12.1
+  image: keyporttech/helm-builder:2.12.1-1
   commands:
   - "kubectl proxy --port=8080 &"
   - "helm version"
