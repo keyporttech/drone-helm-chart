@@ -45,14 +45,12 @@ spec:
         env:
           - name: DRONE_KUBERNETES_ENABLED
             value: "true"
-          {{- if not (.Values.server.env.DRONE_KUBERNETES_NAMESPACE) }}
-          - name: DRONE_KUBERNETES_NAMESPACE
-            value: {{ .Release.Namespace }}
-          {{ end }}
           - name: DRONE_RPC_PROTO
             value: http
           - name: DRONE_RPC_HOST
             value: "{{ template "drone.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local"
+          - name: DRONE_RUNNER_ENVIRON
+            value: "KUBERNETES_PORT_443_TCP_PROTO:${KUBERNETES_PORT_443_TCP_PROTO},KUBERNETES_PORT_443_TCP_ADDR:${KUBERNETES_PORT_443_TCP_ADDR},KUBERNETES_PORT:${KUBERNETES_PORT},KUBERNETES_SERVICE_PORT_HTTPS:${KUBERNETES_SERVICE_PORT_HTTPS},KUBERNETES_PORT_443_TCP_PORT:${KUBERNETES_PORT_443_TCP_PORT},KUBERNETES_PORT_443_TCP=${KUBERNETES_PORT_443_TCP},KUBERNETES_SERVICE_PORT:${KUBERNETES_SERVICE_PORT},KUBERNETES_SERVICE_HOST:${KUBERNETES_SERVICE_HOST}"
           {{- range $key, $value := .Values.server.envSecrets }}
           - name: {{ $key }}
             valueFrom:
