@@ -5,6 +5,7 @@ steps:
 - name: "helm lint"
   image: keyporttech/helm-builder:2.12.1-1
   commands:
+  - "env"  
   - "helm version"
   - "helm lint"
 
