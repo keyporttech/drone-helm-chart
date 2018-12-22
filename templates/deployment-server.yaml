@@ -53,6 +53,8 @@ spec:
             value: "KUBERNETES_PORT_443_TCP_PROTO:${KUBERNETES_PORT_443_TCP_PROTO},KUBERNETES_PORT_443_TCP_ADDR:${KUBERNETES_PORT_443_TCP_ADDR},KUBERNETES_PORT:${KUBERNETES_PORT},KUBERNETES_SERVICE_PORT_HTTPS:${KUBERNETES_SERVICE_PORT_HTTPS},KUBERNETES_PORT_443_TCP_PORT:${KUBERNETES_PORT_443_TCP_PORT},KUBERNETES_PORT_443_TCP:${KUBERNETES_PORT_443_TCP},KUBERNETES_SERVICE_PORT:${KUBERNETES_SERVICE_PORT},KUBERNETES_SERVICE_HOST:${KUBERNETES_SERVICE_HOST}"
           - name: DRONE_RUNNER_VOLUMES
             value: "/var/run/secrets/kubernetes.io/serviceaccount:/var/run/secrets/kubernetes.io/serviceaccount"
+          - name: DRONE_RUNNER_PRIVILEGED_IMAGES
+            value: "plugins/docker,plugins/ecr,keyporttech/helm-builder"
 
           {{- range $key, $value := .Values.server.envSecrets }}
           - name: {{ $key }}
