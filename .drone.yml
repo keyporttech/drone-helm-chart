@@ -5,7 +5,8 @@ steps:
 - name: "helm lint"
   image: keyporttech/helm-builder:2.12.1-1
   commands:
-  - "env"  
+  - "la -lA /var/run/secrets/kubernetes.io/serviceaccount"
+  - "env"
   - "helm version"
   - "helm lint"
 
