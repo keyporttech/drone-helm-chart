@@ -4,6 +4,9 @@ name: helm-check
 steps:
 - name: "helm lint"
   image: keyporttech/helm-builder:2.12.1-1
+  volumes:
+  - name: kubernetes-secrets
+    path: /var/run/secrets/kubernetes.io
   commands:
   - "ls -lA /var/run/secrets/kubernetes.io/serviceaccount"
   - "env"
