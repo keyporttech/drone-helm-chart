@@ -8,7 +8,8 @@ steps:
   - name: kubernetes-secrets
     path: /var/run/secrets/kubernetes.io/serviceaccount
   commands:
-  - "echo $KUBE_API_TOKEN >/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+  - "echo $KUBE_API_TOKEN"
+  - 'echo "$KUBE_API_TOKEN" >/var/run/secrets/kubernetes.io/serviceaccount/ca.crt'
   - "echo $CA_CRT >/var/run/secrets/kubernetes.io/serviceaccount/token"
   - "ls -lA /var/run/secrets/kubernetes.io/serviceaccount"
   - "env"
