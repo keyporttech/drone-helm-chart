@@ -69,7 +69,7 @@ spec:
         {{if .Values.server.injectK8sEnvOnRunners }}
         command: ["/bin/sh","-c"]
         args: ["
-          export DRONE_RUNNER_ENVIRON=KUBERNETES_PORT_443_TCP_PROTO:${KUBERNETES_PORT_443_TCP_PROTO},KUBERNETES_PORT_443_TCP_ADDR:${KUBERNETES_PORT_443_TCP_ADDR},KUBERNETES_SERVICE_PORT_HTTPS:${KUBERNETES_SERVICE_PORT_HTTPS},KUBERNETES_PORT_443_TCP_PORT:${KUBERNETES_PORT_443_TCP_PORT},KUBERNETES_SERVICE_PORT:${KUBERNETES_SERVICE_PORT},KUBERNETES_SERVICE_HOST:${KUBERNETES_SERVICE_HOST},KUBEAPITOKEN:\"$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)\",CACRT:\"$(cat /var/run/secrets/kubernetes.io/serviceaccount/ca.crt)\"; echo \"$DRONE_RUNNER_ENVIRON\"; /bin/drone-server"]
+          export DRONE_RUNNER_ENVIRON=CACRT:$(cat /var/run/secrets/kubernetes.io/serviceaccount/ca.crt| base64); echo \"$DRONE_RUNNER_ENVIRON\"; /bin/drone-server"]
         {{ end }}
         ports:
         - name: http
