@@ -53,10 +53,8 @@ ingress:
   #       - drone.domain.io
 
 server:
-  ## If not set, it will be autofilled with the cluster host.
-  ## Host must be in "<scheme>://<hostname>" format.
-  ##
-  # host: "https://drone.domain.io"
+  ## If true injects kubenretes environment variables needed to run kubectl commands on runnners.
+  #injectK8sEnvOnRunners: true
 
   ## Drone server configuration.
   ## Values in here get injected as environment variables.

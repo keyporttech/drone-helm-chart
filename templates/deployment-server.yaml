@@ -49,8 +49,6 @@ spec:
             value: http
           - name: DRONE_RPC_HOST
             value: "{{ template "drone.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local"
-          - name: DRONE_RUNNER_ENVIRON
-            value: "KUBERNETES_PORT_443_TCP_PROTO:${KUBERNETES_PORT_443_TCP_PROTO},KUBERNETES_PORT_443_TCP_ADDR:${KUBERNETES_PORT_443_TCP_ADDR},KUBERNETES_PORT:${KUBERNETES_PORT},KUBERNETES_SERVICE_PORT_HTTPS:${KUBERNETES_SERVICE_PORT_HTTPS},KUBERNETES_PORT_443_TCP_PORT:${KUBERNETES_PORT_443_TCP_PORT},KUBERNETES_PORT_443_TCP:${KUBERNETES_PORT_443_TCP},KUBERNETES_SERVICE_PORT:${KUBERNETES_SERVICE_PORT},KUBERNETES_SERVICE_HOST:${KUBERNETES_SERVICE_HOST},KUBE_API_TOKEN:$(cat /var/run/secrets/kubernetes.io/serviceaccount/token),CA_CRT:$(cat /var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
           - name: DRONE_RUNNER_PRIVILEGED_IMAGES
             value: "plugins/docker,plugins/ecr,keyporttech/helm-builder"
           {{- range $key, $value := .Values.server.envSecrets }}
@@ -68,6 +66,12 @@ spec:
           - name: {{ $key }}
             value: {{ $value | quote }}
           {{- end }}
+        {{if .Values.server.injectK8sEnvOnRunner }}
+        command: ["/bin/sh","-c"]
+        args: ["
+          export DRONE_RUNNER_ENVIRON=${DRONE_RUNNER_ENVIRON}:KUBERNETES_PORT_443_TCP_PROTO:${KUBERNETES_PORT_443_TCP_PROTO},KUBERNETES_PORT_443_TCP_ADDR:${KUBERNETES_PORT_443_TCP_ADDR},KUBERNETES_PORT:${KUBERNETES_PORT},KUBERNETES_SERVICE_PORT_HTTPS:${KUBERNETES_SERVICE_PORT_HTTPS},KUBERNETES_PORT_443_TCP_PORT:${KUBERNETES_PORT_443_TCP_PORT},KUBERNETES_PORT_443_TCP:${KUBERNETES_PORT_443_TCP},KUBERNETES_SERVICE_PORT:${KUBERNETES_SERVICE_PORT},KUBERNETES_SERVICE_HOST:${KUBERNETES_SERVICE_HOST},KUBE_API_TOKEN:$(cat /var/run/secrets/kubernetes.io/serviceaccount/token),CA_CRT:$(cat /var/run/secrets/kubernetes.io/serviceaccount/ca.crt;
+          /bin/drone-server"]
+        {{ end }}
         ports:
         - name: http
           {{- if not (.Values.server.env.DRONE_SERVER_PORT) }}
