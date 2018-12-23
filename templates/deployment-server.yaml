@@ -105,4 +105,4 @@ spec:
       {{- end -}}
 {{- with .Values.server.extraVolumes }}
 {{ tpl . $ | indent 6 }}
-{{- end }}
+{{- end }} 
