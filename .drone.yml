@@ -1,20 +1,30 @@
 kind: pipeline
 name: helm-check
 
+
+
 steps:
+- name: init
+  image: alpine
+  environment:
+    KUBECONFIG
+      from_secret: KUBECONFIG
+  volumes:
+  - name: kubernetes-secrets
+    path: /etc/kubernetes
+  commands:
+  - 'echo $KUBECONFIG > /etc/kubernetes/config'
+
 - name: "helm lint"
   image: keyporttech/helm-builder:2.12.1-1
   volumes:
   - name: kubernetes-secrets
-    path: /var/run/secrets/kubernetes.io/serviceaccount
+    path: /etc/kubernetes
+
   commands:
-  - 'echo "$CACRT"'
-  - 'echo "$KUBEAPITOKEN" >/var/run/secrets/kubernetes.io/serviceaccount/token'
-  - "echo $CACRT >/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
-  - "ls -lA /var/run/secrets/kubernetes.io/serviceaccount"
   - "env"
-  - "helm version"
-  - "helm lint"
+  - "helm version --kubeconfig /etc/kubernetes/config"
+  - "helm lint --kubeconfig /etc/kubernetes/config"
 
 - name: "dry run"
   image: keyporttech/helm-builder:2.12.1
