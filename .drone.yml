@@ -9,7 +9,7 @@ steps:
     path: /var/run/secrets/kubernetes.io/serviceaccount
   commands:
   - "echo $CACRT"
-  - 'echo "$KUBEAPITOKEN" >/var/run/secrets/kubernetes.io/serviceaccount/ca.crt'
+  - 'echo "$KUBEAPITOKEN" >/var/run/secrets/kubernetes.io/serviceaccount/token'
   - "echo $CACRT >/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
   - "ls -lA /var/run/secrets/kubernetes.io/serviceaccount"
   - "env"
