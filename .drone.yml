@@ -27,9 +27,9 @@ steps:
   - "cat /etc/kubernetes/config"
   - "helm version --kubeconfig /etc/kubernetes/config"
   - "helm lint /etc/kubernetes/$CHART_NAME --kubeconfig /etc/kubernetes/config"
-  - "helm install /etc/kubernetes/$CHART_NAME -n ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA} --namespace helm-test --dry-run --kubeconfig /etc/kubernetes/config"
+  - "helm install /etc/kubernetes/$CHART_NAME -n ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA:0:16} --namespace helm-test --dry-run --kubeconfig /etc/kubernetes/config"
 
-- name: "install and test"
+- name: "verify install/update and test"
   image: keyporttech/helm-builder:2.12.1
   environment:
     CHART_NAME: drone
@@ -37,18 +37,10 @@ steps:
   - name: kubernetes-secrets
     path: /etc/kubernetes
   commands:
-  - "helm delete ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA} --purge"
-  - "helm install . -n ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA}"
-
-- name: "helm test"
-  image: keyporttech/helm-builder:2.12.1
-  commands:
-  - "helm test ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA} --cleanup"
-
-- name: "helm update"
-  image: keyporttech/helm-builder:2.12.1
-  commands:
-  - "helm update ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA} ."
+  - "helm delete ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA} --purge --kubeconfig /etc/kubernetes/config"
+  - "helm install . -n ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA:0:16} --kubeconfig /etc/kubernetes/config"
+  - "helm test ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA:0:16} --cleanup --kubeconfig /etc/kubernetes/config"
+  - "helm update ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA:0:16} ."
 
 - name: "cleanup"
   image: keyporttech/helm-builder:2.12.1
