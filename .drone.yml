@@ -39,9 +39,8 @@ steps:
     path: /etc/kubernetes
   commands:
   - "helm install . -n  $(cat /etc/kubernetes/chartname) --kubeconfig /etc/kubernetes/config"
-  - "sleep 5"
   - "helm test  $(cat /etc/kubernetes/chartname) --cleanup --kubeconfig /etc/kubernetes/config"
-  - "helm update  $(cat /etc/kubernetes/chartname) ."
+  - "helm upgrade $(cat /etc/kubernetes/chartname) ."
 
 - name: "cleanup"
   image: keyporttech/helm-builder:2.12.1
