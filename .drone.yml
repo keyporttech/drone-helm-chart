@@ -13,7 +13,7 @@ steps:
     path: /etc/kubernetes
   commands:
   - "echo $KUBECONFIG | base64 -d > /etc/kubernetes/config"
-  - "ln -s ln -s $(pwd) /etc/kubernetes/$CHART_NAME"
+  - "ln -s $(pwd) /etc/kubernetes/$CHART_NAME"
 
 
 - name: "helm lint"
