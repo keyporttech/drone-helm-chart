@@ -16,7 +16,7 @@ steps:
   - "ln -s $(pwd) /etc/kubernetes/$CHART_NAME"
 
 
-- name: "helm lint"
+- name: "helm lint and dry run"
   image: keyporttech/helm-builder:2.12.1-1
   environment:
     CHART_NAME: drone
@@ -27,10 +27,15 @@ steps:
   - "cat /etc/kubernetes/config"
   - "helm version --kubeconfig /etc/kubernetes/config"
   - "helm lint /etc/kubernetes/$CHART_NAME --kubeconfig /etc/kubernetes/config"
-  - "helm install /etc/kubernetes/$CHART_NAME -n ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA} --namespace: helm-test --dry-run --kubeconfig /etc/kubernetes/config"
+  - "helm install /etc/kubernetes/$CHART_NAME -n ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA} --namespace helm-test --dry-run --kubeconfig /etc/kubernetes/config"
 
-- name: "install"
+- name: "install and test"
   image: keyporttech/helm-builder:2.12.1
+  environment:
+    CHART_NAME: drone
+  volumes:
+  - name: kubernetes-secrets
+    path: /etc/kubernetes
   commands:
   - "helm delete ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA} --purge"
   - "helm install . -n ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA}"
