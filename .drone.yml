@@ -11,7 +11,7 @@ steps:
   - name: kubernetes-secrets
     path: /etc/kubernetes
   commands:
-  - 'echo $KUBECONFIG | base64 --decode > /etc/kubernetes/config'
+  - "echo $KUBECONFIG | base64 -d > /etc/kubernetes/config"
 
 - name: "helm lint"
   image: keyporttech/helm-builder:2.12.1-1
