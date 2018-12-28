@@ -14,7 +14,8 @@ steps:
   commands:
   - "echo $KUBECONFIG | base64 -d > /etc/kubernetes/config"
   - "ln -s $(pwd) /etc/kubernetes/$CHART_NAME"
-
+  ## delete existing deployment if exists
+  - "helm delete ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA:0:16} --purge --kubeconfig /etc/kubernetes/config | :"
 
 - name: "helm lint and dry run"
   image: keyporttech/helm-builder:2.12.1-1
@@ -36,8 +37,8 @@ steps:
   - name: kubernetes-secrets
     path: /etc/kubernetes
   commands:
-  - "helm delete ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA:0:16} --purge --kubeconfig /etc/kubernetes/config | :"
   - "helm install . -n ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA:0:16} --kubeconfig /etc/kubernetes/config"
+  - "sleep 5"
   - "helm test ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA:0:16} --cleanup --kubeconfig /etc/kubernetes/config"
   - "helm update ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA:0:16} ."
 
