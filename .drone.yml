@@ -3,7 +3,7 @@ name: helm-check
 
 steps:
 - name: init
-  image: alpine
+  image: keyporttech/helm-builder:2.12.1-1
   environment:
     KUBECONFIG:
       from_secret: KUBECONFIG_ENC
