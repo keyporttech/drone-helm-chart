@@ -40,12 +40,12 @@ steps:
   commands:
   - "helm install . -n  $(cat /etc/kubernetes/chartname) --kubeconfig /etc/kubernetes/config"
   - "helm test  $(cat /etc/kubernetes/chartname) --cleanup --kubeconfig /etc/kubernetes/config"
-  - "helm upgrade $(cat /etc/kubernetes/chartname) ."
+  - "helm upgrade $(cat /etc/kubernetes/chartname) . --kubeconfig /etc/kubernetes/config"
 
 - name: "cleanup"
   image: keyporttech/helm-builder:2.12.1
   commands:
-  - "helm delete $(cat /etc/kubernetes/chartname) --purge"
+  - "helm delete $(cat /etc/kubernetes/chartname) --purge --kubeconfig /etc/kubernetes/config"
 
 # - name: publish
 #   image: keyporttech/chart_publisher
