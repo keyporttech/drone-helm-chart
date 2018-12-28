@@ -6,12 +6,12 @@ steps:
   image: alpine
   environment:
     KUBECONFIG:
-      from_secret: KUBECONFIG
+      from_secret: KUBECONFIG_ENC
   volumes:
   - name: kubernetes-secrets
     path: /etc/kubernetes
   commands:
-  - 'echo $KUBECONFIG > /etc/kubernetes/config'
+  - 'echo $KUBECONFIG | base64 --decode > /etc/kubernetes/config'
 
 - name: "helm lint"
   image: keyporttech/helm-builder:2.12.1-1
