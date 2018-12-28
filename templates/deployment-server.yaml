@@ -51,6 +51,8 @@ spec:
             value: "{{ template "drone.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local"
           - name: DRONE_RUNNER_PRIVILEGED_IMAGES
             value: "plugins/docker,plugins/ecr,keyporttech/helm-builder"
+          - name: DRONE_RUNNER_ENVIRON
+            value: "CACRT:test"
           {{- range $key, $value := .Values.server.envSecrets }}
           - name: {{ $key }}
             valueFrom:
@@ -69,7 +71,7 @@ spec:
         {{if .Values.server.injectK8sEnvOnRunners }}
         command: ["/bin/sh","-c"]
         args: ["
-          export DRONE_RUNNER_ENVIRON=CACRT:$(cat /var/run/secrets/kubernetes.io/serviceaccount/ca.crt| base64); echo \"$DRONE_RUNNER_ENVIRON\"; /bin/drone-server"]
+          DRONE_RUNNER_ENVIRON=CACRT:$(cat /var/run/secrets/kubernetes.io/serviceaccount/ca.crt| base64) /bin/drone-server"]
         {{ end }}
         ports:
         - name: http

@@ -44,6 +44,11 @@ steps:
 
 - name: "cleanup"
   image: keyporttech/helm-builder:2.12.1
+  environment:
+    CHART_NAME: drone
+  volumes:
+  - name: kubernetes-secrets
+    path: /etc/kubernetes
   commands:
   - "helm delete $(cat /etc/kubernetes/chartname) --purge --kubeconfig /etc/kubernetes/config"
 
