@@ -24,7 +24,6 @@ steps:
   - name: kubernetes-secrets
     path: /etc/kubernetes
   commands:
-  - "cat /etc/kubernetes/config"
   - "helm version --kubeconfig /etc/kubernetes/config"
   - "helm lint /etc/kubernetes/$CHART_NAME --kubeconfig /etc/kubernetes/config"
   - "helm install /etc/kubernetes/$CHART_NAME -n ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA:0:16} --namespace helm-test --dry-run --kubeconfig /etc/kubernetes/config"
@@ -37,7 +36,7 @@ steps:
   - name: kubernetes-secrets
     path: /etc/kubernetes
   commands:
-  - "helm delete ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA} --purge --kubeconfig /etc/kubernetes/config"
+  - "helm delete ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA:0:16} --purge --kubeconfig /etc/kubernetes/config"
   - "helm install . -n ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA:0:16} --kubeconfig /etc/kubernetes/config"
   - "helm test ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA:0:16} --cleanup --kubeconfig /etc/kubernetes/config"
   - "helm update ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA:0:16} ."
@@ -45,7 +44,7 @@ steps:
 - name: "cleanup"
   image: keyporttech/helm-builder:2.12.1
   commands:
-  - "helm delete ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA} --purge"
+  - "helm delete ${DRONE_REPO_NAME}-${DRONE_COMMIT_SHA:0:16} --purge"
 
 # - name: publish
 #   image: keyporttech/chart_publisher
