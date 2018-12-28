@@ -18,9 +18,8 @@ steps:
   volumes:
   - name: kubernetes-secrets
     path: /etc/kubernetes
-
   commands:
-  - "env"
+  - "cat /etc/kubernetes/config"
   - "helm version --kubeconfig /etc/kubernetes/config"
   - "helm lint --kubeconfig /etc/kubernetes/config"
 
