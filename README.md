@@ -5,24 +5,34 @@
 This is a rework of the official [https://github.com/helm/charts/tree/master/stable/drone](https://github.com/helm/charts/tree/master/stable/drone) chart to support drone 1.0.  This was necessary, because changes 1.0 changes made it incompatible with the current chart.  THIS IS USING an PRERELEASE version (like much of kubernetes) so use at your own risk.
 
 ## TL;DR;
-
-```console
-$ helm install jfelten/drone
+```
+git clone https://github.com/keyporttech/drone-helm-chart.git
+cd drone-helm-chart
+kubectl apply -f drone-cluster-role.yaml
+helm install .
 ```
 
 ## Installing the Chart
+Running drone on kubernetes requires running with a service account that has rbac privileges to create namespaces.  Since this is a clusterrole, which cannot installed by most tiller installs, manual set up is needed.
 
-To install the chart with the release name `my-release`:
+The following will install a service account with admin clusterrole binding in the default namespace:
 
 ```console
-$ helm install --name my-release stable/drone
+kubectl apply -f drone-cluster-role.yaml
 ```
 
-local install
+Edit the namespace if not running in the default namespace.
 
-## Customizing the chart example
+Now install the chart in the standard way:
 
-Use a custom values file:
+```console
+$ helm install .
+```
+
+## Customizing the chart values.yaml example
+
+Example 1 - Configure drone to connect to github and use an nginx ingress with persistent storage:
+
 ```console
 $ helm install --name my-release stable/drone --values customValues.yaml
 ```
@@ -35,11 +45,12 @@ images:
     tag: 1.0.0-rc.3
 
 server:
-  host: "https://drone.lab2.keyporttech.com:8243"
+  serviceAccount: drone-runner
+  host: "https://drone.example.com"
   env:
     DRONE_KUBERNETES_NAMESPACE: drone
     DRONE_GITHUB_SERVER: https://github.com
-    #DRONE_SERVER_HOST: drone.lab2.keyporttech.com:8243
+
     DRONE_SERVER_PROTO: http
     DRONE_DATABASE_DRIVER: postgres
   envSecrets:
@@ -133,7 +144,7 @@ The following table lists the configurable parameters of the drone charts and th
 | `persistence.storageClass`  | Storage class of backing PVC                                                                  | `nil`                       |
 | `persistence.accessMode`    | Use volume as ReadOnly or ReadWrite                                                           | `ReadWriteOnce`             |
 | `persistence.size`          | Size of data volume                                                                           | `1Gi`                       |
-| `persistence.directVolumeMount`          | yaml config to connect directly to storage instead of creating a pvc - see example volume                                                                           | `1Gi`                       |
+| `persistence.directVolumeMount`          | yaml config to connect directly to storage instead of creating a pvc - see example volume                                                                           | `nil`                       |
 | `rbac.create`               | Specifies whether RBAC resources should be created.                                           | `true`                      |
 | `rbac.apiVersion`           | RBAC API version                                                                              | `v1`                        |
 | `serviceAccount.create`     | Specifies whether a ServiceAccount should be created.                                         | `true`                      |

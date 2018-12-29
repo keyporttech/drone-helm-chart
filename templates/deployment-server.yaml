@@ -37,7 +37,7 @@ spec:
       nodeSelector:
 {{ toYaml .Values.server.nodeSelector | indent 8 }}
 {{- end }}
-      serviceAccountName: {{ template "drone.serviceAccountName" . }}
+      serviceAccountName: {{ .Values.server.serviceAccount }}
       containers:
       - name: {{ template "drone.fullname" . }}-server
         image: "{{ .Values.images.server.repository }}:{{ .Values.images.server.tag }}"

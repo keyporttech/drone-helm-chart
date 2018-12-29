@@ -53,8 +53,7 @@ ingress:
   #       - drone.domain.io
 
 server:
-  ## If true injects kubenretes environment variables needed to run kubectl commands on runnners.
-  #injectK8sEnvOnRunners: true
+  serviceAccount: drone-runner
 
   ## Drone server configuration.
   ## Values in here get injected as environment variables.
