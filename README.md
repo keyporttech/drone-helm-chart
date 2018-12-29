@@ -2,7 +2,7 @@
 
 [Drone](http://readme.drone.io/) is a Continuous Integration platform built on container technology.
 
-This is a rework of the official [https://github.com/helm/charts/tree/master/stable/drone](https://github.com/helm/charts/tree/master/stable/drone) chart to support drone 1.0.  This was necessary, because changes 1.0 changes made it incompatible with the current chart.  THIS IS USING an PRERELEASE version (like much of kubernetes) so use at your own risk.
+This is a rework of the official [https://github.com/helm/charts/tree/master/stable/drone](https://github.com/helm/charts/tree/master/stable/drone) chart to support drone 1.0.  This was necessary, because changes 1.0 changes made it incompatible with the current chart.  THIS IS USING a PRERELEASE version (like much of kubernetes) so use at your own risk.
 
 This chart is used for its own CI/CD.
 
