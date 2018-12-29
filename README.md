@@ -15,7 +15,7 @@ helm install .
 ```
 
 ## Installing the Chart
-Running drone on kubernetes requires running with a service account that has rbac privileges to create namespaces.  Since this is a clusterrole, which cannot installed by most tiller installs, manual set up is needed.
+Running drone on kubernetes requires a service account that has rbac privileges to create namespaces.  Since this is a clusterrole, which cannot installed by most tiller installs, manual set-up is needed.
 
 The following will install a service account with admin clusterrole binding in the default namespace:
 
