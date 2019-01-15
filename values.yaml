@@ -54,6 +54,8 @@ ingress:
 
 server:
 
+
+
   ## account to bootstrap as an admin user when the server starts
   #adminAccount: octocat
 
@@ -74,8 +76,6 @@ server:
     # DRONE_PROVIDER: "github"
     # DRONE_OPEN: "true"
     # DRONE_GITHUB: "true"
-    # DRONE_ORGS: "my-github-org,my-other-github-org"
-    # DRONE_ADMIN:"admin-1,admin-2"
     # DRONE_GITHUB_CLIENT: "github-oauth2-client-id"
 
   ## Secret environment variables are configured in `server.envSecrets`.
