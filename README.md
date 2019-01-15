@@ -131,6 +131,7 @@ The following table lists the configurable parameters of the drone charts and th
 | `server.host`               | Drone **server** scheme and hostname                                                          | `(internal hostname)`       |
 | `server.env`                | Drone **server** environment variables                                                        | `(default values)`          |
 | `server.envSecrets`         | Drone **server** secret environment variables                                                 | `(default values)`          |
+| `server.adminAccount`      | Drone **server** admin account - set specified user as admin                                                                  | `unset`                        |
 | `server.annotations`        | Drone **server** annotations                                                                  | `{}`                        |
 | `server.resources`          | Drone **server** pod resource requests & limits                                               | `{}`                        |
 | `server.schedulerName`      | Drone **server** alternate scheduler name                                                     | `nil`                       |

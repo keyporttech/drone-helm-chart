@@ -51,6 +51,10 @@ spec:
             value: "{{ template "drone.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local"
           - name: DRONE_KUBERNETES_NAMESPACE
             value: {{ .Release.Namespace }}
+          {{- if .Values.server.adminAccount }}
+          - name: DRONE_USER_CREATE
+            value: "username:{{ .Values.server.adminAccount }},machine:false,admin:true"
+          {{- end }}
           {{- range $key, $value := .Values.server.envSecrets }}
           - name: {{ $key }}
             valueFrom:

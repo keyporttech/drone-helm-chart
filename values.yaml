@@ -53,6 +53,10 @@ ingress:
   #       - drone.domain.io
 
 server:
+
+  ## account to bootstrap as an admin user when the server starts
+  #adminAccount: octocat
+
   serviceAccount: drone-runner
 
   ## Drone server configuration.
