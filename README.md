@@ -2,13 +2,9 @@
 
 [Drone](http://readme.drone.io/) is a Continuous Integration platform built on container technology.
 
-<<<<<<< HEAD
-This is a rework of the official [https://github.com/helm/charts/tree/master/stable/drone](https://github.com/helm/charts/tree/master/stable/drone) chart to support drone 1.0.  This was necessary, because changes 1.0 changes made it incompatible with the current chart.  THIS IS USING an PRERELEASE version (like much of kubernetes) so use at your own risk.
-=======
 This is a rework of the official [https://github.com/helm/charts/tree/master/stable/drone](https://github.com/helm/charts/tree/master/stable/drone) chart to support drone 1.0.  This was necessary, because changes 1.0 changes made it incompatible with the current chart.  THIS IS USING a PRERELEASE version (like much of kubernetes) so use at your own risk.
 
 This chart is used for its own CI/CD.
->>>>>>> 9051c2a3df9e24ac5fec8632780434f5d88b44f2
 
 ## TL;DR;
 ```
@@ -19,11 +15,7 @@ helm install .
 ```
 
 ## Installing the Chart
-<<<<<<< HEAD
 Running drone on kubernetes requires running with a service account that has rbac privileges to create namespaces.  Since this is a clusterrole, which cannot installed by most tiller installs, manual set up is needed.
-=======
-Running drone on kubernetes requires a service account that has rbac privileges to create namespaces.  Since this is a clusterrole, which cannot installed by most tiller installs, manual set-up is needed.
->>>>>>> 9051c2a3df9e24ac5fec8632780434f5d88b44f2
 
 The following will install a service account with admin clusterrole binding in the default namespace:
 
@@ -147,7 +139,7 @@ The following table lists the configurable parameters of the drone charts and th
 | `server.schedulerName`      | Drone **server** alternate scheduler name                                                     | `nil`                       |
 | `server.affinity`           | Drone **server** scheduling preferences                                                       | `{}`                        |
 | `server.nodeSelector`       | Drone **server** node labels for pod assignment                                               | `{}`                        |
-| `server.extraContainers`    | Additional sidecar containers                                                                 | `""`                        |
+| `server.extraContainers`    | Additional sidecar containers                                                               | `""`                        |
 | `server.extraVolumes`       | Additional volumes for use in extraContainers                                                 | `""`                        |                      |
 | `metrics.prometheus.enabled` | Enable Prometheus metrics endpoint                                                          | `false`                     |
 | `persistence.enabled`       | Use a PVC to persist data                                                                     | `true`                      |
