@@ -15,7 +15,7 @@ helm install .
 ```
 
 ## Installing the Chart
-Running drone on kubernetes requires a service account that has rbac privileges to create namespaces.  Since this is a clusterrole, which cannot installed by most tiller installs, manual set-up is needed.
+Running drone on kubernetes requires running with a service account that has rbac privileges to create namespaces.  Since this is a clusterrole, which cannot installed by most tiller installs, manual set up is needed.
 
 The following will install a service account with admin clusterrole binding in the default namespace:
 
@@ -133,12 +133,13 @@ The following table lists the configurable parameters of the drone charts and th
 | `server.host`               | Drone **server** scheme and hostname                                                          | `(internal hostname)`       |
 | `server.env`                | Drone **server** environment variables                                                        | `(default values)`          |
 | `server.envSecrets`         | Drone **server** secret environment variables                                                 | `(default values)`          |
+| `server.adminAccount`      | Drone **server** admin account - set specified user as admin                                                                  | `unset`                        |
 | `server.annotations`        | Drone **server** annotations                                                                  | `{}`                        |
 | `server.resources`          | Drone **server** pod resource requests & limits                                               | `{}`                        |
 | `server.schedulerName`      | Drone **server** alternate scheduler name                                                     | `nil`                       |
 | `server.affinity`           | Drone **server** scheduling preferences                                                       | `{}`                        |
 | `server.nodeSelector`       | Drone **server** node labels for pod assignment                                               | `{}`                        |
-| `server.extraContainers`    | Additional sidecar containers                                                                 | `""`                        |
+| `server.extraContainers`    | Additional sidecar containers                                                               | `""`                        |
 | `server.extraVolumes`       | Additional volumes for use in extraContainers                                                 | `""`                        |                      |
 | `metrics.prometheus.enabled` | Enable Prometheus metrics endpoint                                                          | `false`                     |
 | `persistence.enabled`       | Use a PVC to persist data                                                                     | `true`                      |
