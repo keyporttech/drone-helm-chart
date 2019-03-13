@@ -8,6 +8,7 @@ images:
     repository: "docker.io/drone/drone"
     tag: 1.0.0-rc.3
     pullPolicy: IfNotPresent
+    secrets: docker.io/drone/kubernetes-secrets:latest
 
 service:
   httpPort: 80
@@ -52,8 +53,10 @@ ingress:
   #     hosts:
   #       - drone.domain.io
 
-server:
+# secret key used by the kubernetes secret manager - if not specified a random value is generated
+# secretKey: 1234567890ABCDEF
 
+server:
 
 
   ## account to bootstrap as an admin user when the server starts
@@ -68,15 +71,13 @@ server:
   env:
     DRONE_DEBUG: "false"
 
+    DRONE_GITHUB_SERVER: https://github.com
+    DRONE_GITHUB_SKIP_VERIFY: true
 
-    ## Drone requires some environment variables to bootstrap the
-    ## git service or it won't start up.
-    ## Uncomment this and add your own custom configuration.
-    ##
-    # DRONE_PROVIDER: "github"
-    # DRONE_OPEN: "true"
-    # DRONE_GITHUB: "true"
-    # DRONE_GITHUB_CLIENT: "github-oauth2-client-id"
+    # replace with your values - TODO: use secrets
+    DRONE_GITHUB_CLIENT_ID: "1234567890"
+    DRONE_GITHUB_CLIENT_SECRET: "ABCDEFGHIHKLMNOPQRSTUBQXYZ"
+    DRONE_RPC_SECRET:
 
   ## Secret environment variables are configured in `server.envSecrets`.
   ## Each item in `server.envSecrets` references a Kubernetes Secret.

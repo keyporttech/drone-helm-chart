@@ -39,54 +39,9 @@ spec:
 {{- end }}
       serviceAccountName: {{ .Values.server.serviceAccount }}
       containers:
-      - name: {{ template "drone.fullname" . }}-server
-        image: "{{ .Values.images.server.repository }}:{{ .Values.images.server.tag }}"
-        imagePullPolicy: {{ .Values.images.server.pullPolicy }}
-        env:
-          - name: DRONE_KUBERNETES_ENABLED
-            value: "true"
-          - name: DRONE_RPC_PROTO
-            value: http
-          - name: DRONE_RPC_HOST
-            value: "{{ template "drone.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local"
-          - name: DRONE_KUBERNETES_NAMESPACE
-            value: {{ .Release.Namespace }}
-          {{- if .Values.server.adminAccount }}
-          - name: DRONE_USER_CREATE
-            value: "username:{{ .Values.server.adminAccount }},machine:false,admin:true"
-          {{- end }}
-          {{- range $key, $value := .Values.server.envSecrets }}
-          - name: {{ $key }}
-            valueFrom:
-              secretKeyRef:
-                {{- if $.Values.existingSecret }}
-                name: {{ $.Values.existingSecret }}
-                {{ else }}
-                name: {{ template "drone.fullname" $ }}
-                {{ end -}}
-                key: {{ $key }}
-          {{- end }}
-          {{- range $key, $value := .Values.server.env }}
-          - name: {{ $key }}
-            value: {{ $value | quote }}
-          {{- end }}
-        ports:
-        - name: http
-          {{- if not (.Values.server.env.DRONE_SERVER_PORT) }}
-          containerPort: 80
-          {{ else }}
-          containerPort: {{ .Values.server.env.DRONE_SERVER_PORT }}
-          {{ end -}}
-          protocol: TCP
-        livenessProbe:
-          httpGet:
-            path: /
-            port: http
-        resources:
-{{ toYaml .Values.server.resources | indent 10 }}
-        volumeMounts:
-          - name: data
-            mountPath: /data
+      {{ include "drone" . | indent 6 }}
+      {{ include "drone-k8s-secrets" . | indent 6 }}
+
 {{- with .Values.server.extraContainers }}
 {{ tpl . $ | indent 6 }}
 {{- end }}

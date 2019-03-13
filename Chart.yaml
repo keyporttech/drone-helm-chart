@@ -1,4 +1,4 @@
-name: drone
+name: drone-helm-chart
 home: https://drone.io/
 icon: https://drone.io/apple-touch-icon.png
 version: 1.0.0-rc.3
